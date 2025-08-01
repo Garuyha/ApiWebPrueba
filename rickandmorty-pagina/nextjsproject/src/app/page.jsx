@@ -1,9 +1,5 @@
-export default function HomePage() {
+export default function LandingPage() {
     return (
-        <html>
-            <body>
-                <h1>Landing page</h1>
-            </body>
-        </html>
+        <h1>Landing page</h1>
     );
 }
