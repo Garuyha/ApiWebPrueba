@@ -5,7 +5,9 @@ export default function NavbarRecursos() {
         <nav>
             <h2>Recursos de la API de RnM</h2>
             <ul>
-                <li>Personajes</li>
+                <li>
+                    <Link href="recursos/personajes2">Personajes</Link>
+                </li>
                 <li>Lugares</li>
                 <li>Episodios</li>
             </ul>
