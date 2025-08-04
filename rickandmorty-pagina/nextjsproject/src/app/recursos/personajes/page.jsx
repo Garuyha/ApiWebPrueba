@@ -1,24 +1,39 @@
+import Link from "next/link";
+import PersonajeFicha from '@/components/PersonajeFicha';
 
-async function loadPersonajes() {
-    const res = await fetch('https://rickandmortyapi.com/api/character')
+async function loadPersonajes(page = 1) {
+    const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
     const data = await res.json()
     return data;
 }
 
-export default async function Personajes() {
-
-    const personajes = await loadPersonajes();
+// renderizado del componente
+export default async function Personajes({ searchParams }) {
+    const params = await searchParams;
+    //console.log(params); // Para verificar que los parámetros de búsqueda se reciben correctamente
+    const page = Number(params?.page) || 1;
+    const personajes = await loadPersonajes(page);
     console.log(personajes); // Para verificar que los datos se cargan correctamente
 
     return (
         <div>
             {
                 personajes.results.map((personaje) => (
-                    <div key={personaje.id}>
-                        <h2>{personaje.name}</h2>
-                        <img src={personaje.image} alt={personaje.name} />
-                    </div>))
+                    <PersonajeFicha key={personaje.id} personaje={personaje} currentPage={page} />
+                ))
             }
+            <div>
+                {page > 1 && (
+                    <Link href={`?page=${page - 1}`}>
+                        <button>Anterior</button>
+                    </Link>
+                )}
+                {personajes.info.next && (
+                    <Link href={`?page=${page + 1}`} style={{ marginLeft: "1rem" }}>
+                        <button>Siguiente</button>
+                    </Link>
+                )}
+            </div>
         </div>
     );
 }
